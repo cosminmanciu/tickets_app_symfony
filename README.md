@@ -22,4 +22,4 @@
 - `php bin/console lexik:jwt:generate-keypair`
 
   ## How Test the API
-  - `http://localhost/doc`
+  - You can use Swagger `http://localhost/doc`

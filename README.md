@@ -8,8 +8,7 @@
 ## Features
 - Symfony App 7.1
 - 3 related Entities : Ticket, Organiser, Event
-
-
+- 1 unit test
 ## How to run the project
 
 - Open git terminal
@@ -23,3 +22,6 @@
 
   ## How Test the API
   - You can use Swagger `http://localhost/doc`
+    
+  ## How To Run the Unit Tests
+  - ./vendor/bin/phpunit tests/TicketControllerTest.php

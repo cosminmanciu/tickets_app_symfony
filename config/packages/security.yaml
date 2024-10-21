@@ -1,0 +1,44 @@
+# config/packages/security.yaml
+security:
+    # Add password hasher configuration
+    password_hashers:
+        # Use the "auto" algorithm, which will select the best hashing mechanism available
+        App\Entity\User:
+            algorithm: auto
+
+    providers:
+        users_in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                provider: app_user_provider
+
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+            provider: app_user_provider
+
+        logout:
+            pattern: ^/api/users/logout
+            stateless: true
+            logout:
+                path: /api/users/logout
+                invalidate_session: false  # Since it's stateless, no session to invalidate
+                target: /api/login  # Optional, where to redirect after logout
+
+    access_control:
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/users/register, roles: PUBLIC_ACCESS }  # Allow anyone to access the registration route
+        - { path: ^/api/users/logout, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
